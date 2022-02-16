@@ -25,13 +25,13 @@ function createWindow() {
 
     mainWindow = new BrowserWindow({
         width: (config.mode == "debug") ? 900 : 530,
-        height: 550,
+        height: 750,
         resizable: false,
         frame: true,
         maximizable: false,
-        minHeight: 550,
+        minHeight: 750,
         minWidth: (config.mode == "debug") ? 900 : 530,
-        maxHeight: 550,
+        maxHeight: 750,
         maxWidth: (config.mode == "debug") ? 900 : 530,
         fullscreenable: false,
         autoHideMenuBar: true,
@@ -50,7 +50,7 @@ function createWindow() {
     }
 
     mainWindow.setMenu(null);
-    mainWindow.setTitle('Ski Free') // Window name isn't this
+    mainWindow.setTitle('Wordily') // Window name isn't this
     mainWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'index.html'),
         protocol: 'html',

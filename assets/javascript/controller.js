@@ -5,13 +5,11 @@ const messageDisplay = document.querySelector('.message-container')
 let wordle
 
 const getWordle = () => {
-    fetch('http://localhost:8000/word')
-        .then(response => response.json())
-        .then(json => {
-            wordle = json.toUpperCase()
-        })
-        .catch(err => console.log(err))
+
+    return "AUDIO"
+
 }
+
 getWordle()
 
 const keys = [
@@ -113,8 +111,8 @@ const deleteLetter = () => {
 const checkRow = () => {
     const guess = guessRows[currentRow].join('')
     if (currentTile > 4) {
-        fetch(`http://localhost:8000/check/?word=${guess}`)
-            .then(response => response.json())
+        checkWord(guess)
+            .then(response)
             .then(json => {
                 if (json == 'Entry word not found') {
                     showMessage('word not in list')
@@ -159,7 +157,7 @@ const flipTile = () => {
     const guess = []
 
     rowTiles.forEach(tile => {
-        guess.push({letter: tile.getAttribute('data'), color: 'grey-overlay'})
+        guess.push({ letter: tile.getAttribute('data'), color: 'grey-overlay' })
     })
 
     guess.forEach((guess, index) => {
