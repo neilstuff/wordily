@@ -6,11 +6,10 @@ let wordle
 
 const getWordle = () => {
 
-    return "AUDIO"
-
+    return "super".toUpperCase();
 }
 
-getWordle()
+wordle = getWordle();
 
 const keys = [
     'Q',
@@ -108,35 +107,62 @@ const deleteLetter = () => {
     }
 }
 
+const checkWordle = (guess, wordle) => {
+
+    if (guess.toUpperCase() == wordle) {
+
+        return 1;
+
+    }
+
+    return 2;
+
+}
+
 const checkRow = () => {
     const guess = guessRows[currentRow].join('')
+
     if (currentTile > 4) {
-        checkWord(guess)
-            .then(response)
-            .then(json => {
-                if (json == 'Entry word not found') {
-                    showMessage('word not in list')
+
+        switch (checkWordle(guess, wordle)) {
+
+            case 0:
+                showMessage('word not in list')
+                return;
+
+            case 1:
+                showMessage('Magnificent!')
+                isGameOver = true
+                return;
+
+            case 2:
+                flipTile();
+
+                if (currentRow >= 5) {
+                    isGameOver = true
+                    showMessage('Game Over')
                     return
                 } else {
-                    flipTile()
-                    if (wordle == guess) {
-                        showMessage('Magnificent!')
-                        isGameOver = true
-                        return
-                    } else {
-                        if (currentRow >= 5) {
-                            isGameOver = true
-                            showMessage('Game Over')
-                            return
-                        }
-                        if (currentRow < 5) {
-                            currentRow++
-                            currentTile = 0
-                        }
-                    }
+                    currentRow++
+                    currentTile = 0
                 }
-            }).catch(err => console.log(err))
+
+                return;
+
+        }
+
+    } else {
+        if (currentRow >= 5) {
+            isGameOver = true
+            showMessage('Game Over')
+            return
+        }
+        if (currentRow < 5) {
+            currentRow++
+            currentTile = 0
+        }
     }
+
 }
 
 const showMessage = (message) => {
@@ -181,4 +207,5 @@ const flipTile = () => {
             addColorToKey(guess[index].letter, guess[index].color)
         }, 500 * index)
     })
+
 }

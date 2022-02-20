@@ -25,13 +25,13 @@ function createWindow() {
 
     mainWindow = new BrowserWindow({
         width: (config.mode == "debug") ? 900 : 530,
-        height: 750,
+        height: 760,
         resizable: false,
         frame: true,
         maximizable: false,
-        minHeight: 750,
+        minHeight: 760,
         minWidth: (config.mode == "debug") ? 900 : 530,
-        maxHeight: 750,
+        maxHeight: 760,
         maxWidth: (config.mode == "debug") ? 900 : 530,
         fullscreenable: false,
         autoHideMenuBar: true,
@@ -120,22 +120,5 @@ ipcMain.on('maximize', function(event, arg) {
 ipcMain.on('unmaximize', function(event, arg) {
 
     mainWindow.unmaximize();
-
-});
-
-ipcMain.on('showPrintDialog', async function(event, arg) {
-    var result = await dialog.showSaveDialog({
-            properties: [
-                { createDirectory: true }
-            ],
-            filters: [
-                { name: 'pdf', extensions: ['pdf'] },
-                { name: 'All Files', extensions: ['*'] }
-            ]
-        }
-
-    );
-
-    event.returnValue = result;
 
 });
