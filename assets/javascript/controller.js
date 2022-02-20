@@ -71,7 +71,8 @@ let currentRow = 0;
 let currentTile = 0;
 let isGameOver = false
 
-wordle = getWordle().wordle;
+let game = getWordle();
+wordle = game.wordle;
 
 console.log(wordle);
 
@@ -163,8 +164,9 @@ const resetGame = () => {
 
     }
 
-    wordle = getWordle().wordle;
-    currentRow = 0;
+    let game = getWordle();
+    wordle = game.wordle;
+
     currentTile = 0;
     isGameOver = false;
 

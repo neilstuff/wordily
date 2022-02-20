@@ -15,7 +15,6 @@ const colors = [
 
 function Confetti(canvasId) {
 
-    //-----------Var Inits--------------
     this.canvas = document.getElementById(canvasId);
     this.ctx = canvas.getContext("2d");
     this.canvas.width = window.innerWidth;
@@ -25,26 +24,31 @@ function Confetti(canvasId) {
 
     this.confetti = [];
 
-    //----------Resize----------
+    let __this = this;
+
     window.addEventListener('resize', function() {
-        this.resizeCanvas();
+        __this.resizeCanvas();
     });
+
 }
 
 
 //-----------Functions--------------
-Confetti.prototype.resizeCanvas = () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    cx = ctx.canvas.width / 2;
-    cy = ctx.canvas.height / 2;
+Confetti.prototype.resizeCanvas = function() {
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+    cx = this.ctx.canvas.width / 2;
+    cy = this.ctx.canvas.height / 2;
 };
 
 Confetti.prototype.randomRange = (min, max) => Math.random() * (max - min) + min;
 
 Confetti.prototype.initConfetti = () => {
+
+    console.log(this.confetti)
+
     for (let i = 0; i < confettiCount; i++) {
-        confetti.push({
+        this.confetti.push({
             color: colors[Math.floor(randomRange(0, colors.length))],
             dimensions: {
                 x: randomRange(10, 20),
@@ -68,8 +72,8 @@ Confetti.prototype.initConfetti = () => {
             }
         });
 
-
     }
+
 };
 
 //---------Render-----------
@@ -112,9 +116,8 @@ Confetti.prototype.render = () => {
     });
 
     // Fire off another round of confetti
-    if (confetti.length <= 10) initConfetti();
+    if (confetti.length <= 10) this.initConfetti();
 
     window.requestAnimationFrame(render);
-};
 
-Confetti.prototype.initConfetti();
+};
