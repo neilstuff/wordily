@@ -2,14 +2,38 @@ const tileDisplay = document.querySelector('.tile-container')
 const keyboard = document.querySelector('.key-container')
 const messageDisplay = document.querySelector('.message-container')
 
-let wordle
-
 const getWordle = () => {
 
-    return "super".toUpperCase();
+    let loadedWords = document.querySelector('script[data-template="words"]').textContent.split(' ');
+    let map = {}
+    let count = 0;
+
+    loadedWords.forEach((value, index) => {
+        var word = value.trim();
+
+        if (word.length == 5) {
+            map[word] = count;
+            count += 1;
+        }
+
+    });
+
+    let selection = Math.floor(Math.random() * count);
+    let words = Object.keys(map);
+
+    console.log(count, selection, words[selection]);
+
+    return {
+        words: words,
+        map: map,
+        wordle: words[selection].toUpperCase()
+    }
+
 }
 
-wordle = getWordle();
+wordle = getWordle().wordle;
+
+console.log(wordle);
 
 const keys = [
     'Q',
@@ -119,6 +143,11 @@ const checkWordle = (guess, wordle) => {
 
 }
 
+
+const resetGame = () => {
+
+}
+
 const checkRow = () => {
     const guess = guessRows[currentRow].join('')
 
@@ -131,7 +160,11 @@ const checkRow = () => {
                 return;
 
             case 1:
-                showMessage('Magnificent!')
+                flipTile();
+                setTimeout(() => {
+                    showMessage('Magnificent!');
+                    resetGame();
+                }, 2500);
                 isGameOver = true
                 return;
 
@@ -151,16 +184,6 @@ const checkRow = () => {
 
         }
 
-    } else {
-        if (currentRow >= 5) {
-            isGameOver = true
-            showMessage('Game Over')
-            return
-        }
-        if (currentRow < 5) {
-            currentRow++
-            currentTile = 0
-        }
     }
 
 }

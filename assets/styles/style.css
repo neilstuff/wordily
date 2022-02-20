@@ -66,6 +66,9 @@ body {
 }
 
 .message-container {
+    position: absolute;
+    top: 50px;
+    margin: auto;
     height: 30px;
 }
 
