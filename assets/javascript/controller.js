@@ -9,7 +9,7 @@ const getWordle = () => {
     let count = 0;
 
     loadedWords.forEach((value, index) => {
-        var word = value.trim();
+        var word = value.trim().toUpperCase();
 
         if (word.length == 5) {
             map[word] = count;
@@ -24,7 +24,7 @@ const getWordle = () => {
     return {
         words: words,
         map: map,
-        wordle: words[selection].toUpperCase()
+        wordle: words[selection]
     }
 
 }
@@ -72,7 +72,9 @@ let currentTile = 0;
 let isGameOver = false
 
 let game = getWordle();
-wordle = game.wordle;
+let wordle = game.wordle;
+let map = game.map;
+let words = game.words;
 
 console.log(wordle);
 
@@ -132,12 +134,12 @@ const deleteLetter = () => {
     }
 }
 
-const checkWordle = (guess, wordle) => {
+const checkWordle = (guess, wordle, map) => {
 
-    if (guess.toUpperCase() == wordle) {
-
+    if (!(guess.toUpperCase() in map)) {
+        return 0;
+    } else if (guess.toUpperCase() == wordle) {
         return 1;
-
     }
 
     return 2;
@@ -166,6 +168,8 @@ const resetGame = () => {
 
     let game = getWordle();
     wordle = game.wordle;
+    map = game.map;
+    words = game.words;
 
     currentTile = 0;
     isGameOver = false;
@@ -178,7 +182,7 @@ const checkRow = () => {
 
     if (currentTile > 4) {
 
-        switch (checkWordle(guess, wordle)) {
+        switch (checkWordle(guess, wordle, map)) {
 
             case 0:
                 showMessage('word not in list')
