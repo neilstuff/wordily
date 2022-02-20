@@ -21,8 +21,6 @@ const getWordle = () => {
     let selection = Math.floor(Math.random() * count);
     let words = Object.keys(map);
 
-    console.log(count, selection, words[selection]);
-
     return {
         words: words,
         map: map,
@@ -30,10 +28,6 @@ const getWordle = () => {
     }
 
 }
-
-wordle = getWordle().wordle;
-
-console.log(wordle);
 
 const keys = [
     'Q',
@@ -65,7 +59,7 @@ const keys = [
     'M',
     '«',
 ]
-const guessRows = [
+let guessRows = [
     ['', '', '', '', ''],
     ['', '', '', '', ''],
     ['', '', '', '', ''],
@@ -73,9 +67,13 @@ const guessRows = [
     ['', '', '', '', ''],
     ['', '', '', '', '']
 ]
-let currentRow = 0
-let currentTile = 0
+let currentRow = 0;
+let currentTile = 0;
 let isGameOver = false
+
+wordle = getWordle().wordle;
+
+console.log(wordle);
 
 guessRows.forEach((guessRow, guessRowIndex) => {
     const rowElement = document.createElement('div')
@@ -85,8 +83,10 @@ guessRows.forEach((guessRow, guessRowIndex) => {
         tileElement.setAttribute('id', 'guessRow-' + guessRowIndex + '-tile-' + guessIndex)
         tileElement.classList.add('tile')
         rowElement.append(tileElement)
-    })
+    });
+
     tileDisplay.append(rowElement)
+
 })
 
 keys.forEach(key => {
@@ -115,7 +115,7 @@ const addLetter = (letter) => {
     if (currentTile < 5 && currentRow < 6) {
         const tile = document.getElementById('guessRow-' + currentRow + '-tile-' + currentTile)
         tile.textContent = letter
-        guessRows[currentRow][currentTile] = letter
+        guessRows[currentRow][currentTile] = letter;
         tile.setAttribute('data', letter)
         currentTile++
     }
@@ -123,11 +123,11 @@ const addLetter = (letter) => {
 
 const deleteLetter = () => {
     if (currentTile > 0) {
-        currentTile--
-        const tile = document.getElementById('guessRow-' + currentRow + '-tile-' + currentTile)
-        tile.textContent = ''
-        guessRows[currentRow][currentTile] = ''
-        tile.setAttribute('data', '')
+        currentTile--;
+        const tile = document.getElementById('guessRow-' + currentRow + '-tile-' + currentTile);
+        tile.textContent = '';
+        guessRows[currentRow][currentTile] = '';
+        tile.setAttribute('data', '');
     }
 }
 
@@ -143,9 +143,32 @@ const checkWordle = (guess, wordle) => {
 
 }
 
-
 const resetGame = () => {
 
+    for (var row = 0; row < 5; row++) {
+        for (var column = 0; column < 5; column++) {
+            const tile = document.getElementById('guessRow-' + row + '-tile-' + column);
+            tile.textContent = '';
+            guessRows[currentRow][currentTile] = '';
+            tile.setAttribute('data', '');
+
+            console.log(JSON.stringify(tile.classList));
+
+            tile.classList.remove('green-overlay');
+            tile.classList.remove('yellow-overlay');
+            tile.classList.remove('grey-overlay');
+            tile.classList.remove('flip');
+
+        }
+
+    }
+
+    wordle = getWordle().wordle;
+    currentRow = 0;
+    currentTile = 0;
+    isGameOver = false;
+
+    console.log(wordle);
 }
 
 const checkRow = () => {
@@ -192,7 +215,10 @@ const showMessage = (message) => {
     const messageElement = document.createElement('p')
     messageElement.textContent = message
     messageDisplay.append(messageElement)
-    setTimeout(() => messageDisplay.removeChild(messageElement), 2000)
+
+    setTimeout(
+        () => messageDisplay.removeChild(messageElement), 2000)
+
 }
 
 const addColorToKey = (keyLetter, color) => {
