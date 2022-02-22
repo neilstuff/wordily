@@ -1,5 +1,5 @@
 {
-    "name": "ski-free",
+    "name": "wordily",
     "version": "1.0.0",
     "description": "Ski Free",
     "main": "main.js",
@@ -10,20 +10,18 @@
     },
     "build": {
         "win": {
-            "target": [
-                {
-                    "target": "nsis",
-                    "arch": [
-                        "x64",
-                        "ia32"
-                    ]
-                }
-            ]
+            "target": [{
+                "target": "nsis",
+                "arch": [
+                    "x64",
+                    "ia32"
+                ]
+            }]
         }
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/thesourorange/neilstuff/ski-free.git"
+        "url": "git+https://github.com/thesourorange/neilstuff/wordily.git"
     },
     "keywords": [
         "Electron",
@@ -40,7 +38,7 @@
         "electron-builder": "^22.11.7"
     },
     "bugs": {
-        "url": "https://github.com/thesourorange/ski-free/issues"
+        "url": "https://github.com/thesourorange/wordily/issues"
     },
-    "homepage": "https://github.com/thesourorange/ski-free#readme"
+    "homepage": "https://github.com/thesourorange/wordily#readme"
 }
