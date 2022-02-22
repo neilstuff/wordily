@@ -94,7 +94,7 @@ guessRows.forEach((guessRow, guessRowIndex) => {
 
 keys.forEach(key => {
     const buttonElement = document.createElement('button')
-    buttonElement.textContent = key
+    buttonElement.innerHTML = key
     buttonElement.setAttribute('id', key)
     buttonElement.addEventListener('click', () => handleClick(key))
     keyboard.append(buttonElement)
@@ -115,13 +115,17 @@ const handleClick = (letter) => {
 }
 
 const addLetter = (letter) => {
+
     if (currentTile < 5 && currentRow < 6) {
-        const tile = document.getElementById('guessRow-' + currentRow + '-tile-' + currentTile)
-        tile.textContent = letter
+        const tile = document.getElementById('guessRow-' + currentRow + '-tile-' + currentTile);
+
+        tile.textContent = letter;
         guessRows[currentRow][currentTile] = letter;
-        tile.setAttribute('data', letter)
-        currentTile++
+        tile.setAttribute('data', letter);
+        currentTile++;
+
     }
+
 }
 
 const deleteLetter = () => {
@@ -166,7 +170,17 @@ const resetGame = () => {
 
     }
 
+    keys.forEach(keyLetter => {
+        const key = document.getElementById(keyLetter)
+
+        key.classList.remove('grey-overlay');
+        key.classList.remove('green-overlay');
+        key.classList.remove('yellow-overlay');
+
+    });
+
     let game = getWordle();
+
     wordle = game.wordle;
     map = game.map;
     words = game.words;
@@ -175,6 +189,7 @@ const resetGame = () => {
     isGameOver = false;
 
     console.log(wordle);
+
 }
 
 const checkRow = () => {
