@@ -29,36 +29,121 @@ const getWordle = () => {
 
 }
 
-const keys = [
-    'Q',
-    'W',
-    'E',
-    'R',
-    'T',
-    'Y',
-    'U',
-    'I',
-    'O',
-    'P',
-    'A',
-    'S',
-    'D',
-    'F',
-    'G',
-    'H',
-    'J',
-    'K',
-    'L',
-    'ENTER',
-    'Z',
-    'X',
-    'C',
-    'V',
-    'B',
-    'N',
-    'M',
-    '«',
-]
+const keys = {
+    Q: {
+        type: "key",
+        letter: "Q"
+    },
+    W: {
+        type: "key",
+        letter: "W"
+    },
+    E: {
+        type: "key",
+        letter: "E"
+    },
+    R: {
+        type: "key",
+        letter: "R"
+    },
+    T: {
+        type: "key",
+        letter: "T"
+    },
+    Y: {
+        type: "key",
+        letter: "Y"
+    },
+    U: {
+        type: "key",
+        letter: "U"
+    },
+    I: {
+        type: "key",
+        letter: "I"
+    },
+    O: {
+        type: "key",
+        letter: "O"
+    },
+    P: {
+        type: "key",
+        letter: "P"
+    },
+    A: {
+        type: "key",
+        letter: "A"
+    },
+    S: {
+        type: "key",
+        letter: "S"
+    },
+    D: {
+        type: "key",
+        letter: "D"
+    },
+    F: {
+        type: "key",
+        letter: "F"
+    },
+    G: {
+        type: "key",
+        letter: "G"
+    },
+    H: {
+        type: "key",
+        letter: "H"
+    },
+    J: {
+        type: "key",
+        letter: "J"
+    },
+    K: {
+        type: "key",
+        letter: "K"
+    },
+    L: {
+        type: "key",
+        letter: "L"
+    },
+    ENTER: {
+        type: "key",
+        letter: "ENTER"
+    },
+    Z: {
+        type: "key",
+        letter: "Z"
+    },
+    X: {
+        type: "key",
+        letter: "X"
+    },
+    C: {
+        type: "key",
+        letter: "C"
+    },
+    V: {
+        type: "key",
+        letter: "V"
+    },
+    B: {
+        type: "key",
+        letter: "B"
+    },
+    N: {
+        type: "key",
+        letter: "N"
+    },
+    M: {
+        type: "key",
+        letter: "M"
+    },
+    BACKSPACE: {
+        type: "key",
+        letter: "<i class=\"fas fa-2x fa-backspace\"></i>"
+    }
+}
+
 let guessRows = [
     ['', '', '', '', ''],
     ['', '', '', '', ''],
@@ -92,9 +177,9 @@ guessRows.forEach((guessRow, guessRowIndex) => {
 
 })
 
-keys.forEach(key => {
+Object.keys(keys).forEach(key => {
     const buttonElement = document.createElement('button')
-    buttonElement.innerHTML = key
+    buttonElement.innerHTML = keys[key]['letter'];
     buttonElement.setAttribute('id', key)
     buttonElement.addEventListener('click', () => handleClick(key))
     keyboard.append(buttonElement)
@@ -102,7 +187,7 @@ keys.forEach(key => {
 
 const handleClick = (letter) => {
     if (!isGameOver) {
-        if (letter === '«') {
+        if (letter === 'BACKSPACE') {
             deleteLetter()
             return
         }
