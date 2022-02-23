@@ -10,13 +10,15 @@
     },
     "build": {
         "win": {
-            "target": [{
-                "target": "nsis",
-                "arch": [
-                    "x64",
-                    "ia32"
-                ]
-            }]
+            "target": [
+                {
+                    "target": "nsis",
+                    "arch": [
+                        "x64",
+                        "ia32"
+                    ]
+                }
+            ]
         }
     },
     "repository": {
@@ -34,8 +36,9 @@
         "mime": "^3.0.0"
     },
     "devDependencies": {
-        "electron": "^15.3.1",
-        "electron-builder": "^22.11.7"
+        "electron": "17.0.1",
+        "electron-builder": "^22.14.13",
+        "node": "^16.10.0"
     },
     "bugs": {
         "url": "https://github.com/thesourorange/wordily/issues"
