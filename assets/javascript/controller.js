@@ -255,7 +255,7 @@ const resetGame = () => {
 
     }
 
-    keys.forEach(keyLetter => {
+    Object.keys(keys).forEach(keyLetter => {
         const key = document.getElementById(keyLetter)
 
         key.classList.remove('grey-overlay');
