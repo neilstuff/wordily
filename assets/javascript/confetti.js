@@ -2,7 +2,7 @@ const confettiCount = 200;
 const gravity = 0.5;
 const terminalVelocity = 5;
 const drag = 0.075;
-const repeats = 100;
+const repeats = 120;
 const refire = false;
 const colors = [
     { front: 'red', back: 'darkred' },
@@ -123,9 +123,6 @@ Confetti.prototype.render = function() {
         __this.ctx.setTransform(1, 0, 0, 1, 0, 0);
 
     });
-
-    console.log("Render: ", __this.confetti.length);
-
 
     // Fire off another round of confetti
     if (__this.confetti.length <= repeats) {
