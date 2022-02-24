@@ -291,9 +291,18 @@ const checkRow = () => {
             case 1:
                 flipTile();
                 setTimeout(() => {
+
+                    var confetti = new Confetti('pane', 'confetti')
+
+                    confetti.render();
+
                     showMessage('Magnificent!');
-                    resetGame();
-                }, 2500);
+
+                    setTimeout(() => {
+                        resetGame();
+                    }, 2000);
+
+                }, 3000);
                 isGameOver = true
                 return;
 

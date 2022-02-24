@@ -1,7 +1,9 @@
-const confettiCount = 300;
+const confettiCount = 200;
 const gravity = 0.5;
 const terminalVelocity = 5;
 const drag = 0.075;
+const repeats = 100;
+const refire = false;
 const colors = [
     { front: 'red', back: 'darkred' },
     { front: 'green', back: 'darkgreen' },
@@ -13,14 +15,17 @@ const colors = [
     { front: 'turquoise', back: 'darkturquoise' }
 ];
 
-function Confetti(canvasId) {
+function Confetti(container, canvasId) {
 
     this.canvas = document.getElementById(canvasId);
-    this.ctx = canvas.getContext("2d");
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
-    this.cx = ctx.canvas.width / 2;
-    this.cy = ctx.canvas.height / 2;
+    this.container = document.getElementById(container);
+
+    this.container.style.display = 'inline-block';
+
+    this.ctx = this.canvas.getContext("2d");
+    this.cx = this.canvas.width / 2;
+    this.cy = this.canvas.height / 2;
+    console.log(this.canvas.width, this.canvas.height);
 
     this.confetti = [];
 
@@ -30,10 +35,10 @@ function Confetti(canvasId) {
         __this.resizeCanvas();
     });
 
+    this.initConfetti();
+
 }
 
-
-//-----------Functions--------------
 Confetti.prototype.resizeCanvas = function() {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
@@ -41,34 +46,34 @@ Confetti.prototype.resizeCanvas = function() {
     cy = this.ctx.canvas.height / 2;
 };
 
-Confetti.prototype.randomRange = (min, max) => Math.random() * (max - min) + min;
+Confetti.prototype.randomRange = function(min, max) {
+    return Math.random() * (max - min) + min;
+};
 
-Confetti.prototype.initConfetti = () => {
-
-    console.log(this.confetti)
+Confetti.prototype.initConfetti = function() {
 
     for (let i = 0; i < confettiCount; i++) {
         this.confetti.push({
-            color: colors[Math.floor(randomRange(0, colors.length))],
+            color: colors[Math.floor(this.randomRange(0, colors.length))],
             dimensions: {
-                x: randomRange(10, 20),
-                y: randomRange(10, 30)
+                x: this.randomRange(10, 20),
+                y: this.randomRange(10, 30)
             },
 
             position: {
-                x: randomRange(0, canvas.width),
-                y: canvas.height - 1
+                x: this.randomRange(0, this.canvas.width),
+                y: this.canvas.height - 1
             },
 
-            rotation: randomRange(0, 2 * Math.PI),
+            rotation: this.randomRange(0, 2 * Math.PI),
             scale: {
-                x: 1,
-                y: 1
+                x: 0.3,
+                y: 0.3
             },
 
             velocity: {
-                x: randomRange(-25, 25),
-                y: randomRange(0, -50)
+                x: this.randomRange(-25, 25),
+                y: this.randomRange(0, -50)
             }
         });
 
@@ -77,16 +82,19 @@ Confetti.prototype.initConfetti = () => {
 };
 
 //---------Render-----------
-Confetti.prototype.render = () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+Confetti.prototype.render = function() {
 
-    confetti.forEach((confetto, index) => {
+    let __this = this;
+
+    __this.ctx.clearRect(0, 0, __this.canvas.width, __this.canvas.height);
+
+    this.confetti.forEach((confetto, index) => {
         let width = confetto.dimensions.x * confetto.scale.x;
         let height = confetto.dimensions.y * confetto.scale.y;
 
         // Move canvas to position and rotate
-        ctx.translate(confetto.position.x, confetto.position.y);
-        ctx.rotate(confetto.rotation);
+        __this.ctx.translate(confetto.position.x, confetto.position.y);
+        __this.ctx.rotate(confetto.rotation);
 
         // Apply forces to velocity
         confetto.velocity.x -= confetto.velocity.x * drag;
@@ -98,26 +106,46 @@ Confetti.prototype.render = () => {
         confetto.position.y += confetto.velocity.y;
 
         // Delete confetti when out of frame
-        if (confetto.position.y >= canvas.height) confetti.splice(index, 1);
+        if (confetto.position.y >= __this.canvas.height) __this.confetti.splice(index, 1);
 
         // Loop confetto x position
-        if (confetto.position.x > canvas.width) confetto.position.x = 0;
-        if (confetto.position.x < 0) confetto.position.x = canvas.width;
+        if (confetto.position.x > __this.canvas.width) confetto.position.x = 0;
+        if (confetto.position.x < 0) confetto.position.x = __this.canvas.width;
 
         // Spin confetto by scaling y
         confetto.scale.y = Math.cos(confetto.position.y * 0.1);
-        ctx.fillStyle = confetto.scale.y > 0 ? confetto.color.front : confetto.color.back;
+        __this.ctx.fillStyle = confetto.scale.y > 0 ? confetto.color.front : confetto.color.back;
 
         // Draw confetti
-        ctx.fillRect(-width / 2, -height / 2, width, height);
+        __this.ctx.fillRect(-width / 2, -height / 2, width, height);
 
         // Reset transform matrix
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        __this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+
     });
 
-    // Fire off another round of confetti
-    if (confetti.length <= 10) this.initConfetti();
+    console.log("Render: ", __this.confetti.length);
 
-    window.requestAnimationFrame(render);
+
+    // Fire off another round of confetti
+    if (__this.confetti.length <= repeats) {
+
+        console.log()
+        if (refire) {
+            __this.initConfetti();
+        } else {
+            console.log("Stop");
+            __this.container.style.display = 'none';
+        }
+    } else {
+
+        window.requestAnimationFrame(function() {
+            console.log("In request for Animation");
+
+            __this.render(__this);
+
+        });
+
+    }
 
 };
