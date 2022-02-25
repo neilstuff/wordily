@@ -237,7 +237,7 @@ const checkWordle = (guess, wordle, map) => {
 
 const resetGame = () => {
 
-    for (var row = 0; row < 5; row++) {
+    for (var row = 0; row < 6; row++) {
         for (var column = 0; column < 5; column++) {
             const tile = document.getElementById('guessRow-' + row + '-tile-' + column);
             tile.textContent = '';
