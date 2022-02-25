@@ -310,9 +310,18 @@ const checkRow = () => {
                 flipTile();
 
                 if (currentRow >= 5) {
+                    setTimeout(() => {
+                        showMessage('Game Over');
+                        setTimeout(() => {
+                            resetGame();
+                        }, 2000);
+
+                    }, 2000);
+
                     isGameOver = true
-                    showMessage('Game Over')
-                    return
+
+                    return;
+
                 } else {
                     currentRow++
                     currentTile = 0
