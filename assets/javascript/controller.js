@@ -271,6 +271,7 @@ const resetGame = () => {
     words = game.words;
 
     currentTile = 0;
+    currentRow = 0;
     isGameOver = false;
 
     console.log(wordle);
